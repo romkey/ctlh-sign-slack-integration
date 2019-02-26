@@ -13,6 +13,8 @@ examples:
   /sign b784a7
   /sign 183 132 167
   /sign 0xb7 0x84 0xa7
+  
+Code is at https://github.com/romkey/ctlh-sign-slack-integration
 END_OF_HELP
 end
 
