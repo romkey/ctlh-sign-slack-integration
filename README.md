@@ -41,11 +41,34 @@ To set this up, sign into AWS Lambda and create a new function:
 - Role: "Create a new role from one or more templates"
 - Policy Templates: "Simple microservice permissions"
 
-Then create the Lamba and upload a Zip  file
+Then download the gems in the `aws-lambda` directory by running:
+```bundle install --deployment```
+
+Zip the files in the directory and upload the zip file as the lambda function.
 
 
 
 ## Slack Configuration
+
+The final step!
+
+
+# Limitations
+
+The AWS Lambda code is the least hackable part of the project - modifying it requires access to my AWS account. It's also where most of the work happens - it parses the commands from Slack and translates them into simpler operations that the ESP8266 handles. The ESP8266 is much more hackable - anyone with physical access to it can update the code running on it. It would be nice if the AWS Lambda code were simply glue that shuttled info back and forth between Slack and the ESP8266.
+
+Because we want to keep the AWS Lambda code running for as little time as possible, we don't currenlty retrieve any kind of status from the ESP8266. The ESP8266 could publish its status to CloudMQTT after an operation and the Lambda code could wait for it and return the status to Slack. That would make the code more complex and keep the Lambda running for longer.
+
+We're using three commercial services:
+- AWS Lambda
+- AWS API
+- CloudMQTT
+
+Our use should easily fit within the AWS Lambda free tier, which as of this moment will be perpetual.
+
+We have much less headroom with the free tier of CloudMQTT but we should never end up needing to pay for it, either.
+
+Unfortunately the free tier for AWS API is only available for the its first year of use. After that (at this time) it will cost $3.50/month.
 
 
 ## ESP8266

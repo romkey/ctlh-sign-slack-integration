@@ -11,12 +11,16 @@ def help
 usage: /sign on | off | R G B | hexRGB | possibly-some-other-stuff
 examples:
   /sign b784a7
-  /sign 183 132 167
-  /sign 0xb7 0x84 0xa7
+
+Note that setting the sign too bright can make it flicker.
   
 Code is at https://github.com/romkey/ctlh-sign-slack-integration
 END_OF_HELP
 end
+
+# add these lines to help once they're implemented
+#  /sign 183 132 167
+#  /sign 0xb7 0x84 0xa7
 
 def lambda_handler(event:, context:)
   if ENV['IFTTT_API_KEY']
@@ -58,7 +62,7 @@ def lambda_handler(event:, context:)
       message = "C#{red}#{green}#{blue}"
       reply = "Setting sign to #{red}#{green}#{blue}"
     else
-      reply = "Unknown command\n\n" + help
+      reply = "Unknown command #{cmd}\n\n" + help
     end
   end
   
