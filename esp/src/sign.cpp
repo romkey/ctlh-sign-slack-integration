@@ -1,6 +1,12 @@
 #include <Arduino.h>
 
+#ifdef ESP8266
 #include <ESP8266HTTPClient.h>
+#endif
+
+#ifdef ESP32
+#include <HTTPClient.h>
+#endif
 
 #include "sign.h"
 #include "led.h"
@@ -22,7 +28,10 @@ void sign_slack_command(const char* command) {
       green = number >> 8 & 0xFF;
       blue = number & 0xFF;
     
+#ifdef ESP8266
       led_control(red, green, blue);
+#endif
+
       sign_control(red, green, blue);
     } else {
       Serial.printf("invalid color length %d\n", length);
@@ -61,19 +70,39 @@ bool sign_control(uint8_t red, uint8_t green, uint8_t blue) {
 void sign_debug() {
   Serial.println("SIGN sequence");
   Serial.println("...off");
+
+#ifdef ESP8266
   led_control(0, 0, 0);
+#endif
+
   delay(10000);
   Serial.println("...red");
+
+#ifdef ESP8266
   led_control(255, 0, 0);
+#endif
+
   delay(10000);
   Serial.println("...green");
+
+#ifdef ESP8266
   led_control(0, 255, 0);
+#endif
+
   delay(10000);
   Serial.println("...blue");
+
+#ifdef ESP8266
   led_control(0, 0, 255);
+#endif
+
   delay(10000);
   Serial.println("...white");
+
+#ifdef ESP8266
   led_control(255, 255, 255);
+#endif
+
   delay(10000);
   Serial.println("SIGN sequence done");
 }

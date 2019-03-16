@@ -1,6 +1,13 @@
 #include <Arduino.h>
 
+#ifdef ESP8266
 #include <ESP8266HTTPClient.h>
+#endif
+
+#ifdef ESP32
+#include <HTTPClient.h>
+#endif
+
 #include <IPAddress.h>
 
 #include "projector.h"

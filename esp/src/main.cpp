@@ -1,9 +1,18 @@
 #include "config.h"
 #include "version.h"
 
+#ifdef ESP8266
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <ESP8266mDNS.h>
+#endif
+
+#ifdef ESP32
+#include <WiFi.h>
+#include <WiFiMulti.h>
+#include <ESPmDNS.h>
+#endif
+
 #include <Ticker.h>
 
 #include <PubSubClient.h>
@@ -18,7 +27,13 @@
 
 #include "notify.h"
 
+#ifdef ESP8266
 ESP8266WiFiMulti wifiMulti;
+#endif
+
+#ifdef ESP32
+WiFiMulti wifiMulti;
+#endif
 
 static WiFiClient wifi_client;
 void mqtt_callback(char* topic, byte* payload, unsigned int length);
@@ -31,9 +46,16 @@ static Ticker wifi_connecting_led_ticker;
 void setup() {
   delay(500);
 
+#ifdef ESP8266
   // yes, this is a weird baud rate. this is the speed that the ESP8266 bootloader outputs serial data at
   // so if we use this speed then the serial monitor can see both output from this application and from the bootloader
   Serial.begin(74880);
+#endif
+
+#ifdef ESP32
+  Serial.begin(115200);
+#endif
+
   Serial.print("trying to connect to wifi");
 
   pinMode(LED_RED_PIN, OUTPUT);
@@ -42,7 +64,10 @@ void setup() {
 
   wifi_connecting_led_ticker.attach_ms(200, wifi_blink);
 
+#ifdef ESP8266
   WiFi.hostname(HOSTNAME);
+#endif
+
   WiFi.mode(WIFI_STA);
 
   wifiMulti.addAP(WIFI_SSID1, WIFI_PASSWORD1);
@@ -78,16 +103,13 @@ void loop() {
     notify_info(String("uptime ") + String(millis()) + ", free heap " + String(ESP.getFreeHeap()));
   }
 
-#if 0
   static unsigned long next_printers_update = 0;
   if(millis() > next_printers_update) {
     next_printers_update += 60 * 1000;
 
     printers_update();
   }
-#endif
 
-#if 0
   static unsigned long next_heartbeat = 0;
   if(millis() > next_heartbeat) {
     next_heartbeat += HEARTBEAT_FREQUENCY;
@@ -96,10 +118,10 @@ void loop() {
     snprintf(heartbeat_msg, 200, "{\"uptime\": %lu, \"freeheap\": %u}", millis(), ESP.getFreeHeap());
     mqtt_client.publish("/heartbeat", heartbeat_msg);
   }
-#endif
 }
 
 void wifi_blink() {
+#ifdef ESP2866
   static bool onoff = 0;
 
   if(onoff) {
@@ -109,6 +131,7 @@ void wifi_blink() {
     onoff = 1;
     led_control(255, 0, 0);
   }
+#endif
 }
 
 

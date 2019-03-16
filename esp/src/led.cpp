@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#ifdef ESP8266
+
 #include "led.h"
 
 #include "config.h"
@@ -36,3 +38,5 @@ void led_debug() {
 
   Serial.println("LED sequence done");
 }
+
+#endif
