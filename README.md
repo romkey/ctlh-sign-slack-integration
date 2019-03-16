@@ -47,38 +47,41 @@ Then download the gems in the `aws-lambda` directory by running:
 Zip the files in the directory and upload the zip file as the lambda function.
 
 
-
 ## Slack Configuration
 
 The final step! This is where you'll tell Slack that you're adding a `/` command and give it the API endpoint to call when the command is issued.
 
 You'll need the AWS API endpoint from the previous step.
 
-
 # Limitations
 
-## AWS Limitations
+We're using the free tier of four commercial services:
+- AWS Lambda
+- AWS API
+- CloudMQTT
+- Slack
+
+## AWS Lambda Limitations
 
 The AWS Lambda code is the least hackable part of the project - modifying it requires access to my AWS account. It's also where most of the work happens - it parses the commands from Slack and translates them into simpler operations that the ESP8266 handles. The ESP8266 is much more hackable - anyone with physical access to it can update the code running on it. It would be nice if the AWS Lambda code were simply glue that shuttled info back and forth between Slack and the ESP8266.
 
 Because we want to keep the AWS Lambda code running for as little time as possible, we don't currenlty retrieve any kind of status from the ESP8266. The ESP8266 could publish its status to CloudMQTT after an operation and the Lambda code could wait for it and return the status to Slack. That would make the code more complex and keep the Lambda running for longer.
 
-We're using three commercial services:
-- AWS Lambda
-- AWS API
-- CloudMQTT
-
 Our use should easily fit within the AWS Lambda free tier, which as of this moment will be perpetual.
 
-We have much less headroom with the free tier of CloudMQTT but we should never end up needing to pay for it, either.
+## AWS API
 
-Unfortunately the free tier for AWS API is only available for the its first year of use. After that (at this time) it will cost $3.50/month.
+Unfortunately the free tier for AWS API is only available for the its first year of use. After that (at this time) it will cost $3.50/month. 
+
+## CloudMQTT
+
+We have much less headroom with the free tier of CloudMQTT. The free tier allows 10Kbps of MQTT bandwidth and no more than 5 simultaneous clients. This means it's not appropriate for frequently moving lots of data, and that we shouldn't expect to connect many ESP8266's to it. We should stuff as much functionality in a single ESP8266 as possible in order to not hit the limit on simulaenous clients.
 
 ## Slack Limitations
 
 Free Slack teams allow a maximum of ten apps, so we want to combine all of ^H's Slack integrations into a single app as much as possible.
 
-## ESP8266
+# ESP8266
 
 The ESP8266 sits at CTL-H and subscribes to topics on the MQTT server. It inteprets data it receives on the topics it listens to and uses that to take actions inside CTL-H, like change the RGB settings of the sign.
 
