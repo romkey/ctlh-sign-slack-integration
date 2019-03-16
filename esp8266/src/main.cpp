@@ -13,6 +13,7 @@
 #include "buckets.h"
 #include "aqua.h"
 #include "furball.h"
+#include "printers.h"
 #include "led.h"
 
 #include "notify.h"
@@ -77,6 +78,16 @@ void loop() {
     notify_info(String("uptime ") + String(millis()) + ", free heap " + String(ESP.getFreeHeap()));
   }
 
+#if 0
+  static unsigned long next_printers_update = 0;
+  if(millis() > next_printers_update) {
+    next_printers_update += 60 * 1000;
+
+    printers_update();
+  }
+#endif
+
+#if 0
   static unsigned long next_heartbeat = 0;
   if(millis() > next_heartbeat) {
     next_heartbeat += HEARTBEAT_FREQUENCY;
@@ -85,6 +96,7 @@ void loop() {
     snprintf(heartbeat_msg, 200, "{\"uptime\": %lu, \"freeheap\": %u}", millis(), ESP.getFreeHeap());
     mqtt_client.publish("/heartbeat", heartbeat_msg);
   }
+#endif
 }
 
 void wifi_blink() {

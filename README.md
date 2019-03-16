@@ -50,10 +50,14 @@ Zip the files in the directory and upload the zip file as the lambda function.
 
 ## Slack Configuration
 
-The final step!
+The final step! This is where you'll tell Slack that you're adding a `/` command and give it the API endpoint to call when the command is issued.
+
+You'll need the AWS API endpoint from the previous step.
 
 
 # Limitations
+
+## AWS Limitations
 
 The AWS Lambda code is the least hackable part of the project - modifying it requires access to my AWS account. It's also where most of the work happens - it parses the commands from Slack and translates them into simpler operations that the ESP8266 handles. The ESP8266 is much more hackable - anyone with physical access to it can update the code running on it. It would be nice if the AWS Lambda code were simply glue that shuttled info back and forth between Slack and the ESP8266.
 
@@ -70,5 +74,12 @@ We have much less headroom with the free tier of CloudMQTT but we should never e
 
 Unfortunately the free tier for AWS API is only available for the its first year of use. After that (at this time) it will cost $3.50/month.
 
+## Slack Limitations
+
+Free Slack teams allow a maximum of ten apps, so we want to combine all of ^H's Slack integrations into a single app as much as possible.
 
 ## ESP8266
+
+The ESP8266 sits at CTL-H and subscribes to topics on the MQTT server. It inteprets data it receives on the topics it listens to and uses that to take actions inside CTL-H, like change the RGB settings of the sign.
+
+The ESP8266 is running an Arduino program that's built and uploaded using PlatformIO. You can also build it using the Arduino IDE but you'll need to do some renaming.
