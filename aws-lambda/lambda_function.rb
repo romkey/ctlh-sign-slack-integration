@@ -46,8 +46,9 @@ def lambda_handler(event:, context:)
   when '/aqua'
     reply = aqua_command username, channel_name, arguments
   end
-  
-  reply += "\n\nWant to hack this? Source is at https://github.com/romkey/ctlh-slack-integrations"
+
+  reply = "No response" if reply.nil?
+  reply += "\n\n_Want to hack this?_ Source is at https://github.com/romkey/ctlh-slack-integrations"
 
   { statusCode: 200, body: reply }
 end
