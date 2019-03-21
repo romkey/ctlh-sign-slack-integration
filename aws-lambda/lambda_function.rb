@@ -39,10 +39,12 @@ def lambda_handler(event:, context:)
   arguments = params["text"][0]
   
   case command
-  when "/sign"
+  when '/sign'
     reply = sign_command username, channel_name, arguments
-  when "/weather"
+  when '/weather'
     reply = weather_command username, channel_name, arguments
+  when '/aqua'
+    reply = aqua_command username, channel_name, arguments
   end
   
   reply += "\n\nWant to hack this? Source is at https://github.com/romkey/ctlh-slack-integrations"
