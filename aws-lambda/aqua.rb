@@ -23,6 +23,9 @@ def aqua_command(username, channel_name, arguments)
       
       colors_total = (json["red"] + json["green"] + json["blue"]).to_f
 
+      # avoid possible divide by zero errors
+      colors_total = 1 if colors_total == 0
+
       dt = DateTime.strptime(json["timestamp"].to_s,'%s')
       <<END_OF_RESPONSE
 *Aquaponics status*

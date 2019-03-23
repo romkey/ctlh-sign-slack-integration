@@ -41,7 +41,9 @@ void wifi_blink();
 
 static PubSubClient mqtt_client(MQTT_SERVER, MQTT_PORT, mqtt_callback, wifi_client);
 
+#if 0
 static Ticker wifi_connecting_led_ticker;
+#endif
 
 void setup() {
   delay(500);
@@ -58,11 +60,13 @@ void setup() {
 
   Serial.print("trying to connect to wifi");
 
+#if 0
   pinMode(LED_RED_PIN, OUTPUT);
   pinMode(LED_GREEN_PIN, OUTPUT);
   pinMode(LED_BLUE_PIN, OUTPUT);
 
   wifi_connecting_led_ticker.attach_ms(200, wifi_blink);
+#endif
 
 #ifdef ESP8266
   WiFi.hostname(HOSTNAME);
@@ -78,7 +82,11 @@ void setup() {
     Serial.print(".");
     delay(1000);
   }
+
+#if 0
   wifi_connecting_led_ticker.detach();
+#endif
+
   Serial.println("connected");
 
   MDNS.begin(HOSTNAME);
@@ -116,7 +124,7 @@ void loop() {
 
     char heartbeat_msg[200];
     snprintf(heartbeat_msg, 200, "{\"uptime\": %lu, \"freeheap\": %u}", millis(), ESP.getFreeHeap());
-    mqtt_client.publish("/heartbeat", heartbeat_msg);
+    mqtt_client.publish("/heartbeat", heartbeat_msg, true);
   }
 }
 
@@ -136,7 +144,6 @@ void wifi_blink() {
 
 
 void mqtt_callback(char* topic, byte* payload, unsigned int length) {
-  //  Serial.printf("topic %s, length %s\n", topic, length);
   Serial.println("got a callback!");
   Serial.println(length);
   Serial.println(topic);

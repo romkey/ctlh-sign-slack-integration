@@ -25,6 +25,7 @@ static IPAddress ip1(10, 0, 1, 104);
 static OctoprintApi octoprint1(tcp, ip1, OCTOPRINT_PORT, OCTOPRINT_API_KEY);
 
 void printers_update() {
+#if 0
   octoprint1._debug = true;
 
   if(octoprint1.getPrintJob()) {
@@ -53,4 +54,5 @@ void printers_update() {
     Serial.println(octoprint1.httpStatusCode);
     Serial.println(octoprint1.httpErrorBody);
   }
+#endif
 }

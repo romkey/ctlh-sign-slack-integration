@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title>PDX Hackerspace Hydroponics</title>
+   <meta name="viewport" content="width=device-width">
+   <meta name="description" content="Portland's Hackerspace. Check out our website calendar for our weekly open house and all other events open to the public.">
+
+    <link rel="stylesheet" href="https://pdxhackerspace.org/style.css">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="https://pdxhackerspace.org/css/font-awesome/css/font-awesome.min.css">
+    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  </head>
+<body>
+
+           <div class="row">
+                <div class="col-lg-12 text-center">
+
+<h2>Hydroponics Status</h2>
+                    <hr class="star-primary">
+
+                </div>
+            </div>
+
+           <div class="row">
+                <div class="col-lg-8 col-lg-offset-4">
+
+<div id='loaded' class='hidden'>
+<p>
+Air temperature is <span id='temp_c'></span>°C/<span id='temp_f'></span>°F, humidity <span id='humidity'></span>% and pressure <span id='pressure'></span> millibars
+</p>
+<p>
+Water level has dropped <span id='distance'></span> cm.
+</p>
+<p>
+Light is <span id='lux'></span> lux - red: <span id='red'></span>%, green: <span id='green'></span>%, blue: <span id='blue'></span>%
+</p>
+<p>
+Last update at <span id='timestamp'></span>. Sensors have been up for <span id='uptime'></span> seconds.
+</p>
+<p>
+<i>Want to hack this?</i> Source is at <a href='https://github.com/romkey/ctlh-slack-integrations'>https://github.com/romkey/ctlh-slack-integrations</a>
+</p>
+</div>
+
+<div id='loading'>
+  <img height=100 width=100 src="data:image/gif;base64,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" alt="" />
+</div>
+
+                </div>
+            </div>
+
+<!-- from https://www.cloudmqtt.com/docs/websocket.html -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="https://romkey.com/ctlh-hydro.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+  // we loaded the credentials in separate JS
+  // this is still not at all secure but it allows us to decouple management of this page and its content	    
+  // from management of the credentials, and lets us not check them into Github
+  // (despite the fact that they're flapping in the window here on the web)
+  // they should be for an account with read-only access only to the topic used for the hydroponics
+  var credentials = new CTLHHydroMQTT();
+
+  client = new Paho.MQTT.Client(credentials.MQTT_SERVER, credentials.MQTT_PORT, "client_id" + parseInt(Math.random() * 100));
+  client.onConnectionLost = onConnectionLost;
+  client.onMessageArrived = onMessageArrived;
+  var options = {
+    useSSL: true,
+    userName: credentials.MQTT_USERNAME,
+    password: credentials.MQTT_PASSWORD,
+    onSuccess:onConnect,
+    onFailure:doFail
+  }
+
+  client.connect(options);
+
+  function onConnect() {
+    // Once a connection has been made, make a subscription and send a message.
+    console.log("onConnect");
+    client.subscribe(credentials.MQTT_TOPIC);
+  }
+
+  function doFail(e){
+    console.log(e);
+  }
+
+  function onConnectionLost(responseObject) {
+    if (responseObject.errorCode !== 0) {
+      console.log("onConnectionLost:"+responseObject.errorMessage);
+    }
+  }
+
+  function onMessageArrived(message) {
+    console.log("onMessageArrived:"+message.payloadString);
+    var hydro = JSON.parse(message.payloadString);
+
+    var WATER_HEIGHT = 62;
+
+    var colors_total = hydro["red"] + hydro["green"] + hydro["blue"];
+    if(colors_total == 0) {
+      colors_total = 1;
+    }
+
+    var red_percent = Math.round(hydro["red"]/colors_total*100); 
+    var green_percent = Math.round(hydro["green"]/colors_total*100); 
+    var blue_percent = Math.round(hydro["blue"]/colors_total*100);
+
+    var date = new Date(hydro["timestamp"]*1000);
+
+    $('#temp_c').text(hydro["temperature"]); 
+    $('#temp_f').text(Number(hydro["temperature"])*9/5+32);
+    $('#humidity').text(hydro["humidity"]);
+    $('#pressure').text(hydro["pressure"]/100);
+    $('#lux').text(hydro["lux"]);
+    $('#red').text(red_percent); 
+    $('#green').text(green_percent); 
+    $('#blue').text(blue_percent); 
+    $('#distance').text(WATER_HEIGHT - Number(hydro["distance"]));
+    $('#timestamp').text(date.toLocaleString());
+    $('#uptime').text(hydro["uptime"]);
+
+    $('#loading').addClass('hidden'); 
+    $('#loaded').removeClass('hidden');
+    client.disconnect();
+  }
+</script>
+
+  </body>
+</html>
