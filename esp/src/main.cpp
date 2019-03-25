@@ -123,7 +123,7 @@ void loop() {
     next_heartbeat += HEARTBEAT_FREQUENCY;
 
     char heartbeat_msg[200];
-    snprintf(heartbeat_msg, 200, "{\"uptime\": %lu, \"freeheap\": %u}", millis(), ESP.getFreeHeap());
+    snprintf(heartbeat_msg, 200, "{\"uptime\": %lu, \"freeheap\": %u, \"src\": \"slack-integration-esp\" }", millis(), ESP.getFreeHeap());
     mqtt_client.publish("/heartbeat", heartbeat_msg, true);
   }
 }
