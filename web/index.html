@@ -30,7 +30,7 @@
 
 <div id='loaded' class='hidden'>
 <p>
-Air temperature is <span id='temp_c'></span>°C/<span id='temp_f'></span>°F, humidity <span id='humidity'></span>% and pressure <span id='pressure'></span> millibars
+Air temperature is <span id='temp_c'></span>°C/<span id='temp_f'></span>°F, humidity <span id='humidity'></span>% and pressure <span id='pressure_mb'></span> millibars/<span id='pressure_in'></span> in.
 </p>
 <p>
 Water level has dropped <span id='distance'></span> cm. Water temperature is <span id='water_temperature_c'></span>°C/<span id='water_temperature_f'></span>°F.
@@ -114,7 +114,9 @@ Last update at <span id='timestamp'></span>. Sensors have been up for <span id='
     $('#temp_c').text(hydro["temperature"]); 
     $('#temp_f').text(Number(hydro["temperature"])*9/5+32);
     $('#humidity').text(hydro["humidity"]);
-    $('#pressure').text(hydro["pressure"]/100);
+    $('#pressure_mb').text(hydro["pressure"]);
+    $('#pressure_in').text(Math.round(hydro["pressure"]/.338639)/100);
+
     $('#lux').text(hydro["lux"]);
     $('#red').text(red_percent); 
     $('#green').text(green_percent); 
