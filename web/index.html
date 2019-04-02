@@ -33,7 +33,7 @@
 Air temperature is <span id='temp_c'></span>°C/<span id='temp_f'></span>°F, humidity <span id='humidity'></span>% and pressure <span id='pressure_mb'></span> millibars/<span id='pressure_in'></span> in.
 </p>
 <p>
-Water level has dropped <span id='distance'></span> cm. Water temperature is <span id='water_temperature_c'></span>°C/<span id='water_temperature_f'></span>°F.
+Water level has dropped <span id='distance'></span> cm. Water temperature is <span id='water_temperature_c'></span>°C/<span id='water_temperature_f'></span>°F. Water pH is <span id='water_ph'></span>.
 </p>
 <p>
 Light is <span id='lux'></span> lux - red: <span id='red'></span>%, green: <span id='green'></span>%, blue: <span id='blue'></span>%
@@ -124,6 +124,7 @@ Last update at <span id='timestamp'></span>. Sensors have been up for <span id='
     $('#distance').text(WATER_HEIGHT - Number(hydro["distance"]));
     $('#water_temperature_c').text(hydro["water_temperature"]); 
     $('#water_temperature_f').text(Number(hydro["water_temperature"])*9/5+32); 
+    $('#water_ph').text(hydro["ph"]);
     $('#timestamp').text(date.toLocaleString());
     $('#uptime').text(hydro["uptime"]);
 
