@@ -43,8 +43,16 @@ def lambda_handler(event:, context:)
     reply = sign_command username, channel_name, arguments
   when '/weather'
     reply = weather_command username, channel_name, arguments
-  when '/aqua'
+  when '/hydro'
     reply = aqua_command username, channel_name, arguments
+  when '/planthacker'
+    reply = aqua_command username, channel_name, arguments
+  when '/projectors'
+    reply = projectors_command username, channel_name, arguments
+  when '/projector'
+    reply = projectors_command username, channel_name, arguments
+  when '/proj'
+    reply = projectors_command username, channel_name, arguments
   end
 
   reply = "No response" if reply.nil?

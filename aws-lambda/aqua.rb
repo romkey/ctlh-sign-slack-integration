@@ -7,10 +7,6 @@ require 'pp'
 
 WATER_HEIGHT = 62
 
-def c_to_f(temp)
-  (temp*9/5) + 32
-end
-
 def aqua_command(username, channel_name, arguments)
   mqtt = MQTT::Client.connect(host: ENV['MQTT_HOST'], port: ENV['MQTT_PORT'], ssl: ENV['MQTT_SSL'], username: ENV['MQTT_USERNAME'], password: ENV['MQTT_PASSWORD'])
 
@@ -23,15 +19,12 @@ def aqua_command(username, channel_name, arguments)
       
       colors_total = (json["red"] + json["green"] + json["blue"]).to_f
 
-      # avoid possible divide by zero errors
-      colors_total = 1 if colors_total == 0
-
       dt = DateTime.strptime(json["timestamp"].to_s,'%s')
       <<END_OF_RESPONSE
-*Aquaponics status*
-Air temperature is #{json["temperature"]}°C/#{c_to_f(json["temperature"])}°F, humidity #{json["humidity"]}% and pressure #{json["pressure"]/100} millibars
+*Hydroponics status*
+Air temperature is #{json["temperature"]}°C/#{json["temperature"]*9/5+32}°F, humidity #{json["humidity"]}% and pressure #{json["pressure"]/100} millibars
 
-Water level has dropped #{WATER_HEIGHT - json["distance"]} cm
+Water level has dropped #{WATER_HEIGHT - json["distance"]} cm. Water temperature is #{json["water_temperature"]}°C/#{json["water_temperature"]*9/5+32}°F. Water pH is #{json["ph"]}
 
 Light is #{json["lux"]} lux - red: #{(json["red"]/colors_total*100).to_i}%, green: #{(json["green"]/colors_total*100).to_i}%, blue: #{(json["blue"]/colors_total*100).to_i}%
 
