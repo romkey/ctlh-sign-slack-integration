@@ -1,21 +1,33 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    faraday (0.14.0)
-      multipart-post (>= 1.2, < 3)
+    addressable (2.6.0)
+      public_suffix (>= 2.0.2, < 4.0)
+    domain_name (0.5.20180417)
+      unf (>= 0.0.5, < 1.0.0)
+    dotenv (2.7.2)
+    http (4.1.1)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.0)
+      http_parser.rb (~> 0.6.0)
+    http-cookie (1.0.3)
+      domain_name (~> 0.5)
+    http-form_data (2.1.1)
+    http_parser.rb (0.6.0)
     mqtt (0.5.0)
-    multipart-post (2.0.0)
-    octoprint_api (0.1.0)
-      faraday (~> 0.14.0)
-    pj_link (1.0.0)
+    public_suffix (3.0.3)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  dotenv
+  http
   mqtt
-  octoprint_api
-  pj_link
 
 BUNDLED WITH
    2.0.1
