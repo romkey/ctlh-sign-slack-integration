@@ -1,0 +1,25 @@
+[Unit]
+Description=CTRL-H Data Publisher
+After=network.target
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+
+# Preferably configure a non-privileged user
+User=romkey
+Group=romkey
+
+WorkingDirectory=/home/romkey/src/ctlh-slack-integrations/inside
+
+ExecStart=/home/romkey/.rbenv//bin/rbenv exec bundle exec /home/romkey/src/ctlh-slack-integrations/inside/bin/publisher.rb
+
+# Variant: Use config file with `bind` directives instead:
+# ExecStart=<WD>/sbin/puma -C config.rb
+# Variant: Use `bundle exec --keep-file-descriptors puma` instead of binstub
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

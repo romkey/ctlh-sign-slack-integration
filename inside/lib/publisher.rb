@@ -10,10 +10,10 @@ class Publisher
   end
 
   def connect
-    @mqtt = MQTT::Client.connect(host: @options['MQTT_SERVER'] || ENV['MQTT_SERVER'],
-                                 port: @options['MQTT_PORT'] || ENV['MQTT_PORT'],
-                                 username: @options['MQTT_USERNAME'] || ENV['MQTT_USERNAME'],
-                                 password: @options['MQTT_PASSWORD'] || ENV['MQTT_PASSWORD'])
+    @mqtt = MQTT::Client.connect(host: @options['MQTT_HOSTNAME'],
+                                 port: @options['MQTT_PORT'],
+                                 username: @options['MQTT_USERNAME'],
+                                 password: @options['MQTT_PASSWORD'])
   end
 
   def run!
