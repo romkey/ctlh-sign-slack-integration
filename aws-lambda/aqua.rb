@@ -22,6 +22,7 @@ def aqua_command(username, channel_name, arguments)
 
       dt = DateTime.strptime(json["timestamp"].to_s,'%s')
       tz = TZInfo::Timezone.get('US/Pacific')
+      localtime_str = dt.to_time.getlocal(tz.current_period.offset.utc_total_offset)
 
       <<END_OF_RESPONSE
 *Hydroponics status*
@@ -31,7 +32,7 @@ Water level has dropped #{WATER_HEIGHT - json["distance"]} cm. Water temperature
 
 Light is #{json["lux"]} lux - red: #{(json["red"]/colors_total*100).to_i}%, green: #{(json["green"]/colors_total*100).to_i}%, blue: #{(json["blue"]/colors_total*100).to_i}%
 
-Last update at #{dt.getlocal(tz.current_period.offset.utc_total_offset).to_s}. Sensors have been up for #{json["uptime"]} seconds.
+Last update at #{localtime_str}. Sensors have been up for #{json["uptime"]} seconds.
 END_OF_RESPONSE
     end
   rescue
