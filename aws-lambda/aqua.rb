@@ -3,6 +3,7 @@ require 'mqtt'
 require 'json'
 require 'date'
 require 'timeout'
+require 'tzinfo'
 require 'pp'
 
 WATER_HEIGHT = 62
@@ -20,6 +21,9 @@ def aqua_command(username, channel_name, arguments)
       colors_total = (json["red"] + json["green"] + json["blue"]).to_f
 
       dt = DateTime.strptime(json["timestamp"].to_s,'%s')
+      tz = TZInfo::Timezone.get('US/Pacific')
+      localtime_str = dt.to_time.getlocal(tz.current_period.offset.utc_total_offset)
+
       <<END_OF_RESPONSE
 *Hydroponics status*
 Air temperature is #{json["temperature"]}°C/#{json["temperature"]*9/5+32}°F, humidity #{json["humidity"]}% and pressure #{json["pressure"]/100} millibars
@@ -28,7 +32,7 @@ Water level has dropped #{WATER_HEIGHT - json["distance"]} cm. Water temperature
 
 Light is #{json["lux"]} lux - red: #{(json["red"]/colors_total*100).to_i}%, green: #{(json["green"]/colors_total*100).to_i}%, blue: #{(json["blue"]/colors_total*100).to_i}%
 
-Last update at #{dt.to_s} UTC. Sensors have been up for #{json["uptime"]} seconds.
+Last update at #{localtime_str}. Sensors have been up for #{json["uptime"]} seconds.
 END_OF_RESPONSE
     end
   rescue
